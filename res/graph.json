@@ -1,0 +1,35 @@
+[
+  {
+    "id": "root",
+    "type": "NIN.RootNode",
+    "connected": {
+      "screen": "sceneSwitcherNode.render"
+    }
+  },
+  {
+    "id": "sceneSwitcherNode",
+    "type": "SceneSwitcherNode",
+    "connected": {
+      "A": "SplishSplosh.render",
+      "B": "SplishSplosh.render"
+    }
+  },
+  {
+    "id": "SpinningCube",
+    "type": "spinningCube"
+  },
+  {
+    "id": "AtmosphereShader",
+    "type": "AtmosphereShaderNode",
+    "options": {
+      "shader": "AtmosphereShader"
+    }
+  },
+  {
+    "id": "SplishSplosh",
+    "type": "splishSplosh",
+    "options": {
+      "shader": "WaterShader"
+    }
+  }
+]
