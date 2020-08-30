@@ -1,5 +1,7 @@
 {
     "frame": { "type": "f", "value": 0.0 },
+    "viewDir": { "type": "vec3", "value": 0.0 },
+
     "nearLeft": { "type": "vec3", "value": 0.0 },
     "nearRight": { "type": "vec3", "value": 0.0 },
     "farLeft": { "type": "vec3", "value": 0.0 },

@@ -52,6 +52,8 @@
 
     calcFrustumSeaIntersection(seaPlane){
       this.camera.updateProjectionMatrix();
+      this.camera.updateMatrixWorld();
+      this.camera.updateMatrix();
       // Calculate water plane intersection with view frustum
       let PVinv = this.camera.projectionMatrixInverse.premultiply(this.camera.matrixWorld);
 
@@ -64,15 +66,6 @@
       let farTopRight = (new THREE.Vector3(1,1,1)).applyMatrix4(PVinv);
       let farBottomRight = (new THREE.Vector3(1,-1,1)).applyMatrix4(PVinv);
       let farBottomLeft = (new THREE.Vector3(-1,-1,1)).applyMatrix4(PVinv);
-
-      /*console.log("Far top left: " + farTopLeft);
-      console.log( farTopLeft);
-      console.log("Far bottom right: " + farBottomRight);
-      console.log( farBottomRight);
-      console.log("Near top left: " + nearTopLeft);
-      console.log( nearTopLeft);
-      console.log("Near bottom right: " + nearBottomRight);
-      console.log( nearBottomRight);*/
 
       let linesOfInterest = [
         new THREE.Line3(nearTopLeft, farTopLeft),
@@ -92,16 +85,15 @@
       // Maybe find the 4 intersection points among all lines and sort them after?
       
       let intersectPoint = new THREE.Vector3();
-      let nearLeft = seaPlane.intersectLine(linesOfInterest[3], intersectPoint);;
+      let nearLeft = seaPlane.intersectLine(linesOfInterest[3], intersectPoint);
 
-      //nearLeft.x += 2000;
-      console.log(nearLeft);
+
       if(nearLeft === undefined){
         console.log(":(");
         console.log(linesOfInterest[3]);
         console.log(seaPlane);
         console.log(intersectPoint);
-        nearLeft = [-20, 0, 0]
+        nearLeft = [-20, 0, 0];
       }
 
       intersectPoint = new THREE.Vector3();
@@ -126,10 +118,7 @@
       }
 
 
-      //console.log([nearLeft, nearRight, farRight, farLeft]);
 
-
-  
       return [nearLeft, nearRight, farRight, farLeft];
 
     }
@@ -146,6 +135,9 @@
       
       // Update water uniforms
       this.water.material.uniforms.frame.value = frame;
+      let viewDir = new THREE.Vector3(0, 0, -1); // Camera points in -Z direction
+      viewDir.applyQuaternion(this.camera.quaternion);
+      this.water.material.uniforms.viewDir.value = viewDir;
 
 
       this.ground.rotation.x = Math.sin(frame / 50);
